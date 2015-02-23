@@ -6,45 +6,40 @@
     <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <style type="text/css">
-        body {font-family: Arial, sans-serif; background-color: #0099FF; color: #fff;}
-        .players {max-width: 960px; margin: auto;}
-        .player {max-width: 278px; width: 90%; float: left; border: 1px #fff solid; text-align: center; padding: 20px;}
-        .life {padding: 10px 0; font-size: 60px;}
+        body {font-family: Arial, sans-serif; background-color: #0099FF; color: #fff; margin: 0; padding: 0;}
+        #header {background-color: #000; color: #fff;}
+        #header h1 {margin: 0 0 20px 0; padding: 10px; font-size: 16px;}
+        #header .addPlayer {position: absolute; right: 10px; top: 10px;}
+        .player {max-width: 278px; width: 90%; border: 1px #fff solid; text-align: center; padding: 20px; margin: 0 auto 10px auto; position: relative;}
+        .life {padding: 10px 0; font-size: 60px;}        
         button {background-color: #fff; color: #0099ff; border: 0;}
-        @media only screen and (max-width:700px) {
-            .player {float: none; margin: auto;}
-        }
+        button.remove {position: absolute; top: 10px; right: 10px;}
     </style>
 </head>
 
 <body>
-
-<div class="players">
-    <div class="player">
-        <div class="name" contenteditable="true">Name</div>
-        <div class="life">20</div>
-        <button class="down">-</button>
-        <button class="up">+</button>
-    </div>
+    
+<div id="header">
+    <h1>Magic Life Counter</h1>
+    <button class="addPlayer">Add Player</button>
 </div>
+
+<div class="players"></div>
 
 <div style="clear:both"></div>
 
-<div style="text-align: center; padding: 10px 0;">
-    <button class="addPlayer">Add Player</button>
-</div>
 
 <script type="text/javascript">
     $(document).ready(function(){
         // update life
-        $('.up').on('click', function(){
+        $('.players').on('click', '.up', function(){
             currLife = $(this).parent().find('.life').html();
             updateLife = parseInt(currLife);            
             updateLife = updateLife +1;
             $(this).parent().find('.life').text(updateLife);
         });
         
-        $('.down').on('click', function(){
+        $('.players').on('click', '.down', function(){
             currLife = $(this).parent().find('.life').html();
             updateLife = parseInt(currLife);            
             updateLife = updateLife -1;
@@ -53,8 +48,14 @@
         
         // add player
         $('.addPlayer').click(function(){
-            $('.player:last-child').clone(true).appendTo('.players');
+            //$('.player:last-child').clone(true).appendTo('.players');
+            $( '<div class="player"><div class="name" contenteditable="true">Name</div><div class="life">20</div><button class="down">-</button><button class="up">+</button><button class="remove">x</button></div>' ).appendTo( ".players" );
         });
+        
+        // remove player
+        $('.players').on('click', '.remove', function(){
+            $(this).parent().remove();
+        });        
     });
 </script>
 
